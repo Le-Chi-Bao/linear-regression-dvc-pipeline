@@ -1,0 +1,6 @@
+[core]
+    remote = mys3-v2
+['remote "mys3"']
+    url = s3://my-unique-bucket-cris-bao/data
+['remote "mys3-v2"']
+    url = s3://my-unique-bucket-cris-bao/data_advertising

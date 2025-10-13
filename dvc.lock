@@ -1,0 +1,69 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python scripts/data_preprocessing.py
+    deps:
+    - path: data/raw/advertising.csv
+      hash: md5
+      md5: c7313c34c7030050bee4c29e2260ea68
+      size: 4062
+    - path: scripts/data_preprocessing.py
+      hash: md5
+      md5: 6fb9d7e009e66a6017fa6d6ffc0cb0c8
+      size: 973
+    outs:
+    - path: data/processed/X_test.npy
+      hash: md5
+      md5: f878d6d65e579264fa9a4b71204e20c1
+      size: 448
+    - path: data/processed/X_train.npy
+      hash: md5
+      md5: 442e1c7efa7a4c0c68fe933e7f11e68b
+      size: 1408
+    - path: data/processed/y_test.npy
+      hash: md5
+      md5: 80c9df58e86cb6dd2687cf294cd9b429
+      size: 448
+    - path: data/processed/y_train.npy
+      hash: md5
+      md5: 34cb751d22d15620e0a1fd5a7939054e
+      size: 1408
+  train:
+    cmd: python scripts/train.py
+    deps:
+    - path: data/processed/X_train.npy
+      hash: md5
+      md5: 442e1c7efa7a4c0c68fe933e7f11e68b
+      size: 1408
+    - path: data/processed/y_train.npy
+      hash: md5
+      md5: 34cb751d22d15620e0a1fd5a7939054e
+      size: 1408
+    - path: scripts/train.py
+      hash: md5
+      md5: 86b199cacea2ca44582bcbfb9a8476ba
+      size: 1934
+    - path: scripts/utils.py
+      hash: md5
+      md5: 26ecc7f5f20abba92bcb423a3042ae9f
+      size: 476
+    params:
+      params.yaml:
+        train.epochs: 250
+        train.lr: 0.001
+    outs:
+    - path: models/linear_model.pkl
+      hash: md5
+      md5: 6fbaa4442cd1e8381c519b65f70523f0
+      size: 96
+  predict:
+    cmd: python scripts/predict.py
+    deps:
+    - path: models/linear_model.pkl
+      hash: md5
+      md5: 6fbaa4442cd1e8381c519b65f70523f0
+      size: 96
+    - path: scripts/predict.py
+      hash: md5
+      md5: 3e4b9448457827db984488b0335efe59
+      size: 432

@@ -1,0 +1,30 @@
+stages:
+  preprocess:
+    cmd: python scripts/data_preprocessing.py
+    deps:
+      - scripts/data_preprocessing.py
+      - data/raw/advertising.csv
+    outs:
+      - data/processed/X_train.npy
+      - data/processed/X_test.npy
+      - data/processed/y_train.npy
+      - data/processed/y_test.npy
+
+  train:
+    cmd: python scripts/train.py
+    deps:
+      - scripts/train.py
+      - scripts/utils.py
+      - data/processed/X_train.npy
+      - data/processed/y_train.npy
+    params:
+      - train.epochs
+      - train.lr
+    outs:
+      - models/linear_model.pkl
+
+  predict:
+    cmd: python scripts/predict.py
+    deps: 
+      - scripts/predict.py
+      - models/linear_model.pkl
