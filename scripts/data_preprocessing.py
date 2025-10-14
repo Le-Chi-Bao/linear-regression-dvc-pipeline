@@ -8,6 +8,7 @@ def load_and_preprocess_data(data_path):
     with open('params.yaml', 'r') as f:
         params = yaml.safe_load(f)
     
+    version = params['data']['version']
     df = pd.read_csv(data_path)
     
     X = df[params['data']['feature']].values.reshape(-1, 1)
@@ -19,13 +20,16 @@ def load_and_preprocess_data(data_path):
         random_state=params['data']['random_state']
     )
 
-    np.save('data/processed/X_train.npy', X_train)
-    np.save('data/processed/X_test.npy', X_test) 
-    np.save('data/processed/y_train.npy', y_train)
-    np.save('data/processed/y_test.npy', y_test)
+    np.save(f'data/processed/X_train_{version}.npy', X_train)
+    np.save(f'data/processed/X_test_{version}.npy', X_test)
+    np.save(f'data/processed/y_train_{version}.npy', y_train)
+    np.save(f'data/processed/y_test_{version}.npy', y_test)
     
-    print("Data preprocessing completed!")
+    print(f"✅ Saved data version: {version}")
+    print(f"   Train size: {len(X_train)}, Test size: {len(X_test)}")
     return X_train, X_test, y_train, y_test
 
 if __name__ == "__main__":
     load_and_preprocess_data('data/raw/advertising.csv')
+
+    

@@ -4,27 +4,38 @@ stages:
     deps:
       - scripts/data_preprocessing.py
       - data/raw/advertising.csv
+    params:
+      - data.version
+      - data.test_size
+      - data.random_state
+      - data.feature
+      - data.target
     outs:
-      - data/processed/X_train.npy
-      - data/processed/X_test.npy
-      - data/processed/y_train.npy
-      - data/processed/y_test.npy
+      - data/processed/X_train_${data.version}.npy    # ← DÙNG PARAM SUBSTITUTION
+      - data/processed/X_test_${data.version}.npy
+      - data/processed/y_train_${data.version}.npy
+      - data/processed/y_test_${data.version}.npy
 
   train:
     cmd: python scripts/train.py
     deps:
       - scripts/train.py
       - scripts/utils.py
-      - data/processed/X_train.npy
-      - data/processed/y_train.npy
+      - data/processed/X_train_${data.version}.npy
+      - data/processed/y_train_${data.version}.npy
     params:
+      - data.version
+      - data.feature
       - train.epochs
       - train.lr
     outs:
-      - models/linear_model.pkl
+      - models/model_${data.version}.pkl
 
   predict:
     cmd: python scripts/predict.py
     deps: 
       - scripts/predict.py
-      - models/linear_model.pkl
+      - models/model_${data.version}.pkl
+    params:
+      - data.version
+      - predict.values

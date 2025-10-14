@@ -6,7 +6,9 @@ import yaml
 def train_linear_model(X_train, y_train):
     with open('params.yaml', 'r') as f:
         params = yaml.safe_load(f)
-    
+
+    version = params['data']['version']
+    feature = params['data']['feature'] 
     epochs = params['train']['epochs']
     lr = params['train']['lr']
     
@@ -44,17 +46,30 @@ def train_linear_model(X_train, y_train):
     model_data = {
         'w': float(w),
         'b': float(b),
-        'feature': 'TV',
-        'performance': {'final_loss': float(avg_loss)}
+        'feature': feature,
+        'performance': {'final_loss': float(avg_loss)},
+        'normalization': { 
+            'X_mean': float(X_mean),
+            'X_std': float(X_std), 
+            'y_mean': float(y_mean),
+            'y_std': float(y_std)
+        }
     }
-    
-    joblib.dump(model_data, 'models/linear_model.pkl')
+
+    model_path = f'models/model_{version}.pkl'
+    joblib.dump(model_data, model_path)
     print(f"Model trained! Final: w={float(w):.4f}, b={float(b):.4f}")
+    print(f"✅ Model saved: {model_path}")
     return w, b, loss_history
 
 if __name__ == "__main__":
-    X_train = np.load('data/processed/X_train.npy')
-    y_train = np.load('data/processed/y_train.npy')
+    with open('params.yaml', 'r') as f:
+        params = yaml.safe_load(f)
+    version = params['data']['version']
+    
+    print(f"🚀 Training with data version: {version}")
+    
+    X_train = np.load(f'data/processed/X_train_{version}.npy')
+    y_train = np.load(f'data/processed/y_train_{version}.npy')
     train_linear_model(X_train, y_train)
-
 
