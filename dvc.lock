@@ -16,36 +16,36 @@ stages:
         data.feature: TV
         data.random_state: 42
         data.target: Sales
-        data.test_size: 0.2
-        data.version: v1
+        data.test_size: 0.3
+        data.version: v2
     outs:
-    - path: data/processed/X_test_v1.npy
+    - path: data/processed/X_test_v2.npy
       hash: md5
-      md5: f878d6d65e579264fa9a4b71204e20c1
-      size: 448
-    - path: data/processed/X_train_v1.npy
+      md5: 3527445fcdb9e8da1e87c12e899460ef
+      size: 608
+    - path: data/processed/X_train_v2.npy
       hash: md5
-      md5: 442e1c7efa7a4c0c68fe933e7f11e68b
-      size: 1408
-    - path: data/processed/y_test_v1.npy
+      md5: b7ac75c3e19a60b8193c6b3630eb3379
+      size: 1248
+    - path: data/processed/y_test_v2.npy
       hash: md5
-      md5: 80c9df58e86cb6dd2687cf294cd9b429
-      size: 448
-    - path: data/processed/y_train_v1.npy
+      md5: cfb58bbfc1c18461d0afc2c52cb3ad71
+      size: 608
+    - path: data/processed/y_train_v2.npy
       hash: md5
-      md5: 34cb751d22d15620e0a1fd5a7939054e
-      size: 1408
+      md5: c82048861a3d5dbffd06775cfa6c1bce
+      size: 1248
   train:
     cmd: python scripts/train.py
     deps:
-    - path: data/processed/X_train_v1.npy
+    - path: data/processed/X_train_v2.npy
       hash: md5
-      md5: 442e1c7efa7a4c0c68fe933e7f11e68b
-      size: 1408
-    - path: data/processed/y_train_v1.npy
+      md5: b7ac75c3e19a60b8193c6b3630eb3379
+      size: 1248
+    - path: data/processed/y_train_v2.npy
       hash: md5
-      md5: 34cb751d22d15620e0a1fd5a7939054e
-      size: 1408
+      md5: c82048861a3d5dbffd06775cfa6c1bce
+      size: 1248
     - path: scripts/train.py
       hash: md5
       md5: 0f8bd83f9ae1a9da5ada68f4d864c100
@@ -57,20 +57,20 @@ stages:
     params:
       params.yaml:
         data.feature: TV
-        data.version: v1
+        data.version: v2
         train.epochs: 250
         train.lr: 0.001
     outs:
-    - path: models/model_v1.pkl
+    - path: models/model_v2.pkl
       hash: md5
-      md5: 9bb272294f618afaa5262426580d957f
+      md5: a75ea1b41f76f571b7de53760641f58e
       size: 186
   predict:
     cmd: python scripts/predict.py
     deps:
-    - path: models/model_v1.pkl
+    - path: models/model_v2.pkl
       hash: md5
-      md5: 9bb272294f618afaa5262426580d957f
+      md5: a75ea1b41f76f571b7de53760641f58e
       size: 186
     - path: scripts/predict.py
       hash: md5
@@ -78,8 +78,7 @@ stages:
       size: 4445
     params:
       params.yaml:
-        data.version: v1
+        data.version: v2
         predict.values:
-        - 100
-        - 200
-        - 300
+        - 199
+        - 299
