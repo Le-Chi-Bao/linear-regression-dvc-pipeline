@@ -5,8 +5,8 @@ stages:
     deps:
     - path: data/raw/advertising.csv
       hash: md5
-      md5: c7313c34c7030050bee4c29e2260ea68
-      size: 4062
+      md5: 1a425712edc12850bb4f68cad5dd00d3
+      size: 3861
     - path: scripts/data_preprocessing.py
       hash: md5
       md5: 64bdb23c6a8d3905cdadb51b5b21184a
@@ -16,36 +16,36 @@ stages:
         data.feature: Radio
         data.random_state: 42
         data.target: Sales
-        data.test_size: 0.2
-        data.version: v3
+        data.test_size: 0.25
+        data.version: v4
     outs:
-    - path: data/processed/X_test_v3.npy
+    - path: data/processed/X_test_v4.npy
       hash: md5
-      md5: 3897a831a4dbf4c02a1c0175fed3910c
-      size: 448
-    - path: data/processed/X_train_v3.npy
+      md5: 45995ebc23344c5445e12f575a72dbd8
+      size: 528
+    - path: data/processed/X_train_v4.npy
       hash: md5
-      md5: bfbc30e517ef6d9ae68104f690f476b0
-      size: 1408
-    - path: data/processed/y_test_v3.npy
+      md5: 722b7bb80a3f9f816d0ee582c04f7b87
+      size: 1328
+    - path: data/processed/y_test_v4.npy
       hash: md5
-      md5: 80c9df58e86cb6dd2687cf294cd9b429
-      size: 448
-    - path: data/processed/y_train_v3.npy
+      md5: 019a8e15554b529df2abcffaa5e2bfd0
+      size: 528
+    - path: data/processed/y_train_v4.npy
       hash: md5
-      md5: 34cb751d22d15620e0a1fd5a7939054e
-      size: 1408
+      md5: d35a37df6f3ee4c9876be5964174aabd
+      size: 1328
   train:
     cmd: python scripts/train.py
     deps:
-    - path: data/processed/X_train_v3.npy
+    - path: data/processed/X_train_v4.npy
       hash: md5
-      md5: bfbc30e517ef6d9ae68104f690f476b0
-      size: 1408
-    - path: data/processed/y_train_v3.npy
+      md5: 722b7bb80a3f9f816d0ee582c04f7b87
+      size: 1328
+    - path: data/processed/y_train_v4.npy
       hash: md5
-      md5: 34cb751d22d15620e0a1fd5a7939054e
-      size: 1408
+      md5: d35a37df6f3ee4c9876be5964174aabd
+      size: 1328
     - path: scripts/train.py
       hash: md5
       md5: 0f8bd83f9ae1a9da5ada68f4d864c100
@@ -57,20 +57,20 @@ stages:
     params:
       params.yaml:
         data.feature: Radio
-        data.version: v3
+        data.version: v4
         train.epochs: 200
         train.lr: 0.001
     outs:
-    - path: models/model_v3.pkl
+    - path: models/model_v4.pkl
       hash: md5
-      md5: 3d044d5c708695ad2e4b2004fd92c923
+      md5: 301e70159c42bc3785a091623278c375
       size: 189
   predict:
     cmd: python scripts/predict.py
     deps:
-    - path: models/model_v3.pkl
+    - path: models/model_v4.pkl
       hash: md5
-      md5: 3d044d5c708695ad2e4b2004fd92c923
+      md5: 301e70159c42bc3785a091623278c375
       size: 189
     - path: scripts/predict.py
       hash: md5
@@ -78,7 +78,7 @@ stages:
       size: 4445
     params:
       params.yaml:
-        data.version: v3
+        data.version: v4
         predict.values:
         - 25
         - 50
